@@ -1,3 +1,19 @@
+/*------------------------------------------------------------------------------------------------
+  Universidad Aut  noma de Entre Rios
+  Facultad de Ciencia y Tecnolog  a
+  Ingenier  a de Telecomunicaciones
+
+  Proyecto de investigaci  n
+  Procesamiento de se  ales mediante cluster
+  Microcluster LAN
+  Programa de prueba para evaluar operaciones enteras de suma en GPU
+
+  compile with cd ../ && make QPU=1 all
+
+  include program name at ../sources.mk
+*/
+
+
 #include "../Lib/V3DLib.h"
 #include "Support/Settings.h"
 
