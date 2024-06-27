@@ -5,7 +5,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #ifndef _V3D_INSTR_DUMP_H
 #define _V3D_INSTR_DUMP_H
-#include "broadcom/qpu/qpu_instr.h"
+#include "../../../mesa/src/broadcom/qpu/qpu_instr.h"
 
 
 #ifdef __cplusplus

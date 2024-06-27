@@ -3,7 +3,7 @@
 
 #ifdef QPU_MODE
 
-#include "Common/BufferObject.h"
+#include "../Common/BufferObject.h"
 
 namespace V3DLib {
 namespace vc4 {

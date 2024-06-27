@@ -6,7 +6,7 @@
 #define _V3DLIB_COMMON_SEQ_H_
 #include <stdlib.h>
 #include <string>
-#include "Support/debug.h"
+#include "../Support/debug.h"
 
 namespace V3DLib {
 

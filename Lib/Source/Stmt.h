@@ -1,10 +1,10 @@
 #ifndef _V3DLIB_SOURCE_STMT_H_
 #define _V3DLIB_SOURCE_STMT_H_
-#include "Support/InstructionComment.h"
+#include "../Support/InstructionComment.h"
 #include "Int.h"
 #include "Expr.h"
 #include "CExpr.h"
-#include "vc4/DMA/DMA.h"
+#include "../vc4/DMA/DMA.h"
 
 namespace V3DLib {
 

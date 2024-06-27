@@ -1,14 +1,14 @@
 #include "KernelDriver.h"
 #include <iostream>
 #include <sstream>
-#include "Source/Lang.h"
-#include "Source/Translate.h"
-#include "Target/RemoveLabels.h"
+#include "../Source/Lang.h"
+#include "../Source/Translate.h"
+#include "../Target/RemoveLabels.h"
 #include "vc4.h"
 #include "DMA/Operations.h"
 #include "dump_instr.h"
-#include "Target/instr/Mnemonics.h"
-#include "SourceTranslate.h"  // add_uniform_pointer_offset()
+#include "../Target/instr/Mnemonics.h"
+#include "../SourceTranslate.h"  // add_uniform_pointer_offset()
 #include "Instr.h"
 
 namespace V3DLib {

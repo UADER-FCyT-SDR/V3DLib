@@ -2,7 +2,7 @@
 #define _V3DLIB_LIVENESS_CFG_H_
 #include <set>
 #include <vector>
-#include "Target/instr/Instr.h"
+#include "../Target/instr/Instr.h"
 #include "Range.h"
 
 namespace V3DLib {

@@ -3,9 +3,9 @@
 // This is the very first include file of the library to be compiled,
 // therefore a great place for global includes.
 #include <stdint.h>
-#include "defines.h"
-#include "Common/BufferType.h"
-#include "Support/HeapManager.h"
+#include "../defines.h"
+#include "../Common/BufferType.h"
+#include "../Support/HeapManager.h"
 
 
 namespace V3DLib {

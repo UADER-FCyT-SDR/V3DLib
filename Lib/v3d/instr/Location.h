@@ -1,7 +1,6 @@
 #ifndef _V3DLIB_V3D_INSTR_LOCATION_H
 #define _V3DLIB_V3D_INSTR_LOCATION_H
-#include "broadcom/qpu/qpu_instr.h"
-
+#include "../../../mesa/src/broadcom/qpu/qpu_instr.h"
 namespace V3DLib {
 namespace v3d {
 namespace instr {

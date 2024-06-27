@@ -2,8 +2,8 @@
 #define _V3DLIB_TARGET_EMUSUPPORT_H_
 #include <stdint.h>
 #include <vector>
-#include "Common/Seq.h"
-#include "Target/instr/Imm.h"
+#include "../Common/Seq.h"
+#include "../Target/instr/Imm.h"
 
 
 /**

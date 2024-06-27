@@ -4,7 +4,7 @@
 #include "Register.h"
 #include "SmallImm.h"
 #include "RFAddress.h"
-#include "Target/instr/RegOrImm.h"
+#include "../../Target/instr/RegOrImm.h"
 
 namespace V3DLib {
 namespace v3d {

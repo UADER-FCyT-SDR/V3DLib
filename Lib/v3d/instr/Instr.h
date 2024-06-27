@@ -4,10 +4,10 @@
 #include <string>
 #include <vector>
 #include "v3d_api.h"
-#include "Support/InstructionComment.h"
+#include "../../Support/InstructionComment.h"
 #include "Source.h"
 #include "Encode.h"
-#include "Target/instr/ALUInstruction.h"
+#include "../../Target/instr/ALUInstruction.h"
 
 namespace V3DLib {
 

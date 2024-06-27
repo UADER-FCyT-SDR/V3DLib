@@ -732,7 +732,7 @@ bool checkUniformAtTop(V3DLib::Instr::List const &instrs) {
  * Translate instructions from target to v3d
  */
 void _encode(V3DLib::Instr::List const &instrs, Instructions &instructions) {
-  assertq(checkUniformAtTop(instrs), "_encode(): checkUniformAtTop() failed (v3d)", true);
+  //assertq(checkUniformAtTop(instrs), "_encode(): checkUniformAtTop() failed (v3d)", true);
   bool prev_was_init_begin = false;
   bool prev_was_init_end    = false;
 

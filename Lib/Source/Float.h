@@ -3,7 +3,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #ifndef _V3DLIB_SOURCE_FLOAT_H_
 #define _V3DLIB_SOURCE_FLOAT_H_
-#include "Common/Seq.h"
+#include "../Common/Seq.h"
 #include "Expr.h"
 #include "Ptr.h"
 #include "Int.h"

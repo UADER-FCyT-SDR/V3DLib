@@ -1,4 +1,4 @@
-#include "V3DLib.h"
+#include "../Lib/V3DLib.h"
 #include "Support/Settings.h"
 
 using namespace V3DLib;

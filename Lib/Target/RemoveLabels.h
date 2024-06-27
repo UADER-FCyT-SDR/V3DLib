@@ -1,7 +1,7 @@
 #ifndef _V3DLIB_TARGET_REMOVELABELS_H_
 #define _V3DLIB_TARGET_REMOVELABELS_H_
-#include "Liveness/Liveness.h"
-#include "Support/basics.h"
+#include "../Liveness/Liveness.h"
+#include "../Support/basics.h"
 
 namespace V3DLib {
 

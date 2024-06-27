@@ -35,7 +35,7 @@
 
 #include <stdbool.h>
 #include <stdint.h>
-#include "util/macros.h"
+#include "../../util/macros.h"
 
 struct v3d_device_info;
 

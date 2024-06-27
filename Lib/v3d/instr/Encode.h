@@ -1,7 +1,7 @@
 #ifndef _V3DLIB_V3D_INSTR_ENCODE_H
 #define _V3DLIB_V3D_INSTR_ENCODE_H
 #include <memory>
-#include "Target/instr/Instr.h"
+#include "../../Target/instr/Instr.h"
 #include "Location.h"
 #include "RFAddress.h"
 

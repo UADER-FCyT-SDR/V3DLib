@@ -3,8 +3,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 #ifndef _V3DLIB_SOURCE_INT_H_
 #define _V3DLIB_SOURCE_INT_H_
-#include "Common/SharedArray.h"
-#include "Common/Seq.h"
+#include "../Common/SharedArray.h"
+#include "../Common/Seq.h"
 #include "Ptr.h"
 #include "Expr.h"
 

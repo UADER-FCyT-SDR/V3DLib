@@ -1,7 +1,7 @@
 #ifndef _V3DLIB_INTERPRETER_H_
 #define _V3DLIB_INTERPRETER_H_
 #include <stdint.h>
-#include "Source/Stmt.h"
+#include "../Source/Stmt.h"
 
 namespace V3DLib {
 

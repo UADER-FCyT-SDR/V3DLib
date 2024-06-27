@@ -1,7 +1,7 @@
 #ifndef _V3DLIB_KERNELS_CURSOR_H_
 #define _V3DLIB_KERNELS_CURSOR_H_
 #include <functional>
-#include "Source/Float.h"
+#include "../Source/Float.h"
 
 namespace V3DLib {
 

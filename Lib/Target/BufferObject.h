@@ -1,6 +1,6 @@
 #ifndef _V3DLIB_TARGET_EMU_BUFFEROBJECT_H_
 #define _V3DLIB_TARGET_EMU_BUFFEROBJECT_H_
-#include "Common/BufferObject.h"
+#include "../Common/BufferObject.h"
 
 namespace V3DLib {
 namespace emu {

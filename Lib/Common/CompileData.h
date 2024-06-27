@@ -2,7 +2,7 @@
 #define _V3DLIB_COMMON_COMPILEDATA_H_
 #include <string>
 #include <vector>
-#include "Target/instr/Reg.h"
+#include "../Target/instr/Reg.h"
 
 namespace V3DLib {
 

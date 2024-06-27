@@ -1,13 +1,13 @@
 #ifndef _V3DLIB_TARGET_INSTR_INSTR_H_
 #define _V3DLIB_TARGET_INSTR_INSTR_H_
 #include <set>
-#include "Support/InstructionComment.h"
-#include "Common/Seq.h"
+#include "../../Support/InstructionComment.h"
+#include "../../Common/Seq.h"
 #include "Label.h"
 #include "Imm.h"
 #include "Conditions.h"
 #include "ALUInstruction.h"
-#include "Support/RegIdSet.h"
+#include "../../Support/RegIdSet.h"
 
 namespace V3DLib {
 

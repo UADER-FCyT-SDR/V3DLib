@@ -1,4 +1,4 @@
-#include <V3DLib.h>
+#include "../Lib/V3DLib.h"
 #include "Support/Settings.h"
 
 using namespace V3DLib;
@@ -17,7 +17,7 @@ void id_kernel(Int::Ptr p, Int::Ptr q) {
 int main(int argc, const char *argv[]) {
   int numQPUs = 8;                                // Max number of QPUs for v3d
 
-  settings.init(argc, argv);
+  //settings.init(argc, argv);
 
   auto k = compile(id_kernel);                    // Construct kernel
   k.setNumQPUs(numQPUs);

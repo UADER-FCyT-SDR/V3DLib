@@ -3,7 +3,7 @@
 
 #ifdef QPU_MODE
 
-#include "Common/SharedArray.h"
+#include "../Common/SharedArray.h"
 #include "v3d.h"
 
 namespace V3DLib {

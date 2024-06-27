@@ -3,8 +3,8 @@
 #include <cmath>
 #include <string>
 #include <functional>
-#include "Support/basics.h"
-#include "Source/Float.h"
+#include "../Support/basics.h"
+#include "../Source/Float.h"
 
 
 class Color {

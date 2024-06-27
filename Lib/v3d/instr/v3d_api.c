@@ -2,10 +2,9 @@
 #include <assert.h>
 #include <stdio.h>
 #include <string.h>
-#include "broadcom/qpu/qpu_disasm.h"
-#include "util/ralloc.h"  // ralloc_free()
-#include "broadcom/common/v3d_device_info.h"
-
+#include "../../../mesa/src/broadcom/qpu/qpu_disasm.h"
+#include "../../../mesa/src/util/ralloc.h"  // ralloc_free()
+#include "../../../mesa/src/broadcom/common/v3d_device_info.h"
 
 //
 // Required by many broadcom v3d calls

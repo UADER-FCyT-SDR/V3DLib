@@ -1,7 +1,7 @@
 #ifndef _V3DLIB_SOURCE_OP_H_
 #define _V3DLIB_SOURCE_OP_H_
 #include <string>
-#include "Target/instr/ALUOp.h"
+#include "../Target/instr/ALUOp.h"
 
 namespace V3DLib {
 

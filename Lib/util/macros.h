@@ -20,32 +20,26 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-
 #ifndef UTIL_MACROS_H
 #define UTIL_MACROS_H
-
+#include <stdio.h>
 #include <assert.h>
-
-#include "../../include/c99_compat.h"
-#include "../../include/c11_compat.h"
-
+#include "c99_compat.h"
+#include "c11_compat.h"
 /* Compute the size of an array */
 #ifndef ARRAY_SIZE
 #  define ARRAY_SIZE(x) (sizeof(x) / sizeof((x)[0]))
 #endif
-
 /* For compatibility with Clang's __has_builtin() */
 #ifndef __has_builtin
 #  define __has_builtin(x) 0
 #endif
-
 /**
  * __builtin_expect macros
  */
 #if !defined(HAVE___BUILTIN_EXPECT)
 #  define __builtin_expect(x, y) (x)
 #endif
-
 #ifndef likely
 #  ifdef HAVE___BUILTIN_EXPECT
 #    define likely(x)   __builtin_expect(!!(x), 1)
@@ -55,19 +49,55 @@
 #    define unlikely(x) (x)
 #  endif
 #endif
-
-
+/**
+ * __builtin_types_compatible_p compat
+ */
+#if defined(__cplusplus) || !defined(HAVE___BUILTIN_TYPES_COMPATIBLE_P)
+#  define __builtin_types_compatible_p(type1, type2) (1)
+#endif
 /**
  * Static (compile-time) assertion.
- * Basically, use COND to dimension an array.  If COND is false/zero the
- * array size will be -1 and we'll get a compilation error.
  */
-#define STATIC_ASSERT(COND) \
-   do { \
+#if defined(_MSC_VER)
+   /* MSVC doesn't like VLA's, but it also dislikes zero length arrays
+    * (which gcc is happy with), so we have to define STATIC_ASSERT()
+    * slightly differently.
+    */
+#  define STATIC_ASSERT(COND) do {         \
+      (void) sizeof(char [(COND) != 0]);   \
+   } while (0)
+#elif defined(__GNUC__)
+   /* This version of STATIC_ASSERT() relies on VLAs.  If COND is
+    * false/zero, the array size will be -1 and we'll get a compile
+    * error
+    */
+#  define STATIC_ASSERT(COND) do {         \
       (void) sizeof(char [1 - 2*!(COND)]); \
    } while (0)
-
-
+#else
+#  define STATIC_ASSERT(COND) do { } while (0)
+#endif
+/**
+ * container_of - cast a member of a structure out to the containing structure
+ * @ptr:        the pointer to the member.
+ * @type:       the type of the container struct this is embedded in.
+ * @member:     the name of the member within the struct.
+ */
+#ifndef __GNUC__
+   /* a grown-up compiler is required for the extra type checking: */
+#  define container_of(ptr, type, member)                               \
+      (type*)((uint8_t *)ptr - offsetof(type, member))
+#else
+#  define __same_type(a, b) \
+      __builtin_types_compatible_p(__typeof__(a), __typeof__(b))
+#  define container_of(ptr, type, member) ({                            \
+         uint8_t *__mptr = (uint8_t *)(ptr);                            \
+         STATIC_ASSERT(__same_type(*(ptr), ((type *)0)->member) ||      \
+                       __same_type(*(ptr), void) ||                     \
+                       !"pointer type mismatch in container_of()");     \
+         ((type *)(__mptr - offsetof(type, member)));                   \
+      })
+#endif
 /**
  * Unreachable macro. Useful for suppressing "control reaches end of non-void
  * function" warnings.
@@ -87,7 +117,6 @@ do {                        \
 #else
 #define unreachable(str) assert(!str)
 #endif
-
 /**
  * Assume macro. Useful for expressing our assumptions to the compiler,
  * typically for purposes of silencing warnings.
@@ -107,7 +136,6 @@ do {                       \
 #else
 #define assume(expr) assert(expr)
 #endif
-
 /* Attribute const is used for functions that have no effects other than their
  * return value, and only rely on the argument values to compute the return
  * value.  As a result, calls to it can be CSEed.  Note that using memory
@@ -118,25 +146,25 @@ do {                       \
 #else
 #define ATTRIBUTE_CONST
 #endif
-
 #ifdef HAVE_FUNC_ATTRIBUTE_FLATTEN
 #define FLATTEN __attribute__((__flatten__))
 #else
 #define FLATTEN
 #endif
-
 #ifdef HAVE_FUNC_ATTRIBUTE_FORMAT
-#define PRINTFLIKE(f, a) __attribute__ ((format(__printf__, f, a)))
+#if defined (__MINGW_PRINTF_FORMAT)
+# define PRINTFLIKE(f, a) __attribute__ ((format(__MINGW_PRINTF_FORMAT, f, a)))
+#else
+# define PRINTFLIKE(f, a) __attribute__ ((format(__printf__, f, a)))
+#endif
 #else
 #define PRINTFLIKE(f, a)
 #endif
-
 #ifdef HAVE_FUNC_ATTRIBUTE_MALLOC
 #define MALLOCLIKE __attribute__((__malloc__))
 #else
 #define MALLOCLIKE
 #endif
-
 /* Forced function inlining */
 /* Note: Clang also sets __GNUC__ (see other cases below) */
 #ifndef ALWAYS_INLINE
@@ -148,7 +176,6 @@ do {                       \
 #    define ALWAYS_INLINE inline
 #  endif
 #endif
-
 /* Used to optionally mark structures with misaligned elements or size as
  * packed, to trade off performance for space.
  */
@@ -157,7 +184,6 @@ do {                       \
 #else
 #define PACKED
 #endif
-
 /* Attribute pure is used for functions that have no effects other than their
  * return value.  As a result, calls to it can be dead code eliminated.
  */
@@ -166,13 +192,11 @@ do {                       \
 #else
 #define ATTRIBUTE_PURE
 #endif
-
 #ifdef HAVE_FUNC_ATTRIBUTE_RETURNS_NONNULL
 #define ATTRIBUTE_RETURNS_NONNULL __attribute__((__returns_nonnull__))
 #else
 #define ATTRIBUTE_RETURNS_NONNULL
 #endif
-
 #ifndef NORETURN
 #  ifdef _MSC_VER
 #    define NORETURN __declspec(noreturn)
@@ -182,7 +206,11 @@ do {                       \
 #    define NORETURN
 #  endif
 #endif
-
+#ifdef _MSC_VER
+#define ALIGN16 __declspec(align(16))
+#else
+#define ALIGN16 __attribute__((aligned(16)))
+#endif
 #ifdef __cplusplus
 /**
  * Macro function that evaluates to true if T is a trivially
@@ -208,7 +236,6 @@ do {                       \
 #      define HAS_TRIVIAL_DESTRUCTOR(T) (false)
 #   endif
 #endif
-
 /**
  * PUBLIC/USED macros
  *
@@ -219,18 +246,17 @@ do {                       \
  * inline a static function that we later use in an alias. - ajax
  */
 #ifndef PUBLIC
-#  if defined(__GNUC__)
-#    define PUBLIC __attribute__((visibility("default")))
-#    define USED __attribute__((used))
-#  elif defined(_MSC_VER)
+#  if defined(_WIN32)
 #    define PUBLIC __declspec(dllexport)
 #    define USED
+#  elif defined(__GNUC__)
+#    define PUBLIC __attribute__((visibility("default")))
+#    define USED __attribute__((used))
 #  else
 #    define PUBLIC
 #    define USED
 #  endif
 #endif
-
 /**
  * UNUSED marks variables (or sometimes functions) that have to be defined,
  * but are sometimes (or always) unused beyond that. A common case is for
@@ -245,7 +271,6 @@ do {                       \
 #else
 #define UNUSED
 #endif
-
 /**
  * Use ASSERTED to indicate that an identifier is unused outside of an `assert()`,
  * so that assert-free builds don't get "unused variable" warnings.
@@ -255,20 +280,18 @@ do {                       \
 #else
 #define ASSERTED
 #endif
-
 #ifdef HAVE_FUNC_ATTRIBUTE_WARN_UNUSED_RESULT
 #define MUST_CHECK __attribute__((warn_unused_result))
 #else
 #define MUST_CHECK
 #endif
-
 #if defined(__GNUC__)
 #define ATTRIBUTE_NOINLINE __attribute__((noinline))
+#elif defined(_MSC_VER)
+#define ATTRIBUTE_NOINLINE __declspec(noinline)
 #else
 #define ATTRIBUTE_NOINLINE
 #endif
-
-
 /**
  * Check that STRUCT::FIELD can hold MAXVAL.  We use a lot of bitfields
  * in Mesa/gallium.  We have to be sure they're of sufficient size to
@@ -283,30 +306,21 @@ do {                       \
       s.FIELD = (MAXVAL); \
       assert((int) s.FIELD == (MAXVAL) && "Insufficient bitfield size!"); \
    } while (0)
-
-
 /** Compute ceiling of integer quotient of A divided by B. */
 #define DIV_ROUND_UP( A, B )  ( ((A) + (B) - 1) / (B) )
-
 /** Clamp X to [MIN,MAX].  Turn NaN into MIN, arbitrarily. */
 #define CLAMP( X, MIN, MAX )  ( (X)>(MIN) ? ((X)>(MAX) ? (MAX) : (X)) : (MIN) )
-
 /* Syntax sugar occuring frequently in graphics code */
 #define SATURATE( X ) CLAMP(X, 0.0f, 1.0f)
-
 /** Minimum of two values: */
 #define MIN2( A, B )   ( (A)<(B) ? (A) : (B) )
-
 /** Maximum of two values: */
 #define MAX2( A, B )   ( (A)>(B) ? (A) : (B) )
-
 /** Minimum and maximum of three values: */
 #define MIN3( A, B, C ) ((A) < (B) ? MIN2(A, C) : MIN2(B, C))
 #define MAX3( A, B, C ) ((A) > (B) ? MAX2(A, C) : MAX2(B, C))
-
 /** Align a value to a power of two */
 #define ALIGN_POT(x, pot_align) (((x) + (pot_align) - 1) & ~((pot_align) - 1))
-
 /**
  * Macro for declaring an explicit conversion operator.  Defaults to an
  * implicit conversion if C++11 is not supported.
@@ -316,7 +330,6 @@ do {                       \
 #elif defined(__cplusplus)
 #define EXPLICIT_CONVERSION
 #endif
-
 /** Set a single bit */
 #define BITFIELD_BIT(b)      (1u << (b))
 /** Set all bits up to excluding bit b */
@@ -325,7 +338,6 @@ do {                       \
 /** Set count bits starting from bit b  */
 #define BITFIELD_RANGE(b, count) \
    (BITFIELD_MASK((b) + (count)) & ~BITFIELD_MASK(b))
-
 /** Set a single bit */
 #define BITFIELD64_BIT(b)      (1ull << (b))
 /** Set all bits up to excluding bit b */
@@ -334,7 +346,6 @@ do {                       \
 /** Set count bits starting from bit b  */
 #define BITFIELD64_RANGE(b, count) \
    (BITFIELD64_MASK((b) + (count)) & ~BITFIELD64_MASK(b))
-
 /* TODO: In future we should try to move this to u_debug.h once header
  * dependencies are reorganised to allow this.
  */
@@ -348,5 +359,13 @@ enum pipe_debug_type
    PIPE_DEBUG_TYPE_FALLBACK,
    PIPE_DEBUG_TYPE_CONFORMANCE,
 };
-
+#if !defined(alignof) && !defined(__cplusplus)
+#if __STDC_VERSION__ >= 201112L
+#define alignof(t) _Alignof(t)
+#elif defined(_MSC_VER)
+#define alignof(t) __alignof(t)
+#else
+#define alignof(t) __alignof__(t)
+#endif
+#endif
 #endif /* UTIL_MACROS_H */

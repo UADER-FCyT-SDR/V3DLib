@@ -116,6 +116,9 @@ EXAMPLES := \
   DMA  \
   Rot3D  \
   Matrix  \
+  add  \
+  walsh  \
+  mult  \
   detectPlatform  \
 
 # support files for examples

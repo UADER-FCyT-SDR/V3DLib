@@ -1,7 +1,7 @@
 #ifndef _EXAMPLE_SUPPORT_SETTINGS_H
 #define _EXAMPLE_SUPPORT_SETTINGS_H
 #include <string>
-#include <CmdParameters.h>
+#include "../../CmdParameter/Lib/CmdParameters.h"
 
 namespace V3DLib {
 

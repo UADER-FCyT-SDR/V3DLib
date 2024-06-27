@@ -1,9 +1,9 @@
 #ifndef _V3DLIB_VC4_DMA_DMA_H_
 #define _V3DLIB_VC4_DMA_DMA_H_
 #include <string>
-#include "Source/Expr.h"
-#include "Source/Int.h"
-#include "Target/instr/Instr.h"
+#include "../../Source/Expr.h"
+#include "../../Source/Int.h"
+#include "../../Target/instr/Instr.h"
 
 namespace V3DLib {
 namespace DMA {
